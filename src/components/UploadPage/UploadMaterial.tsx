@@ -1,9 +1,9 @@
-// src/UploadMaterial.tsx
+// src/components/UploadPage/UploadMaterial.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
 interface UploadMaterialProps {
-  onUploadSuccess: () => void; // Callback to refresh material list
+    onUploadSuccess: () => void; // Callback to refresh material list
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -114,7 +114,7 @@ const UploadMaterial: React.FC<UploadMaterialProps> = ({ onUploadSuccess }) => {
                     <input type="text" id="token" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={token} onChange={(e) => setToken(e.target.value)} />
                 </div>
 
-                <button type="submit" className="bg-green-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled={uploading}>
+                <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled={uploading}>
                     {uploading ? 'Uploading...' : 'Upload'}
                 </button>
 
