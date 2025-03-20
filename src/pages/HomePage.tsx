@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/HomePage/Header';
@@ -32,7 +31,9 @@ const HomePage: React.FC<HomePageProps> = ({ userEmail, onLogout }) => {
         const fetchMaterials = async () => {
             setError(null);
             try {
-                const response = await axios.get(`${API_BASE_URL}/materials?search=${searchTerm}`); // Replace with appropriate API endpoint for searching
+                // Remove the search parameter from the URL
+                const response = await axios.get(`${API_BASE_URL}/materials`);
+                console.log('Materials data:', response.data); // Print data to console
                 setMaterials(response.data.data); // Adjust if needed
             } catch (err: any) {
                 console.error('Error fetching materials:', err);

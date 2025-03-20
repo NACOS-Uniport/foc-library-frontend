@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormProps {
     onLogin: (email: string) => void;
@@ -12,46 +14,49 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     const [otp, setOtp] = useState('');
     const [loginError, setLoginError] = useState<string | null>(null);
     const [otpRequested, setOtpRequested] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isRequestingOtp, setIsRequestingOtp] = useState(false);
+    const navigate = useNavigate();
 
     const requestOtp = async () => {
         if (!email) return;
         
-        setIsLoading(true);
+        setIsRequestingOtp(true);
         setLoginError(null);
         
         try {
             const response = await axios.post(`${API_BASE_URL}/auth/request-otp`, { email });
-            console.log('OTP requested:', response.data);
+            toast.success('OTP sent to your email');
             setOtpRequested(true);
         } catch (error: any) {
-            console.error('OTP request error:', error);
+            toast.error(error.response?.data?.message || 'Failed to request OTP');
             setLoginError(error.response?.data?.message || error.message || 'Failed to request OTP.');
         } finally {
-            setIsLoading(false);
+            setIsRequestingOtp(false);
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoginError(null);
-        setIsLoading(true);
+        setIsSubmitting(true);
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/auth/login`, { email, otp });
-            console.log('Login successful:', response.data);
+            const response = await axios.post(`${API_BASE_URL}/auth/verify-otp`, { email, otp });
+            toast.success('Login successful!');
             localStorage.setItem('authToken', response.data.token);
             onLogin(email);
+            navigate('/'); // Redirect to home page after successful login
         } catch (error: any) {
-            console.error('Login error:', error);
+            toast.error(error.response?.data?.message || 'Login failed');
             setLoginError(error.response?.data?.message || error.message || 'Login failed.');
         } finally {
-            setIsLoading(false);
+            setIsSubmitting(false);
         }
     };
 
     return (
-        <div className=" p-8 max-w-md w-full">
+        <div className="p-8 max-w-md w-full">
             {loginError && (
                 <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded">
                     <p className="text-red-700">{loginError}</p>
@@ -90,28 +95,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
                         <button
                             type="button"
                             onClick={requestOtp}
-                            disabled={isLoading || !email}
+                            disabled={isRequestingOtp || !email}
                             className={`absolute right-1 top-1 bottom-1 px-4 rounded-md whitespace-nowrap transition focus:outline-none ${
-                                isLoading || !email
+                                isRequestingOtp || !email
                                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                                     : "bg-green-300 text-green-950 hover:bg-green-500"
                             }`}
                         >
-                            {isLoading ? "..." : "Get OTP"}
+                            {isRequestingOtp ? "Sending..." : "Get OTP"}
                         </button>
                     </div>
                 </div>
 
                 <button
                     type="submit"
-                    disabled={isLoading || !email || !otp}
+                    disabled={isSubmitting || !email || !otp}
                     className={`w-full py-2 px-4 rounded-md font-medium transition focus:outline-none ${
-                        isLoading || !email || !otp
+                        isSubmitting || !email || !otp
                             ? "bg-green-600 text-white cursor-not-allowed"
                             : "bg-green-700 hover:bg-green-800 text-white"
                     }`}
                 >
-                    {isLoading ? "Logging in..." : "Log In"}
+                    {isSubmitting ? "Logging in..." : "Log In"}
                 </button>
             </form>
         </div>

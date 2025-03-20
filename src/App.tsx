@@ -1,40 +1,57 @@
-// src/App.tsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
-import UploadMaterial from './components/UploadPage/UploadMaterial'; // Ensure the path is correct
+import UploadMaterial from './components/UploadPage/UploadMaterial';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Replace with your actual auth logic
-    const [userEmail, setUserEmail] = useState<string | null>(null); // Stores user email if logged in
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userEmail, setUserEmail] = useState<string | null>(null);
 
-    // Example authentication check (replace with your actual logic)
     useEffect(() => {
-        const storedToken = localStorage.getItem('authToken'); // Or however you store tokens
+        const storedToken = localStorage.getItem('authToken');
         if (storedToken) {
             setIsLoggedIn(true);
             // Ideally, fetch user info (including email) based on the token here
-            setUserEmail('user@example.com'); // Replace with the actual email
+            const storedEmail = localStorage.getItem('userEmail');
+            if (storedEmail) {
+                setUserEmail(storedEmail);
+            }
         }
     }, []);
 
     const handleLogin = (email: string) => {
         setIsLoggedIn(true);
         setUserEmail(email);
-        // Store auth token in local storage, session storage, etc.
+        localStorage.setItem('userEmail', email); // Store email for persistence
     };
 
     const handleLogout = () => {
         setIsLoggedIn(false);
         setUserEmail(null);
-        localStorage.removeItem('authToken'); // Or remove your token storage
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userEmail');
     };
 
     return (
         <Router>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <Routes>
-                <Route path="/auth" element={<AuthPage onLogin={handleLogin} />} />
+                <Route path="/auth" element={
+                    isLoggedIn ? <Navigate to="/" replace /> : <AuthPage onLogin={handleLogin} />
+                } />
                 <Route
                     path="/"
                     element={

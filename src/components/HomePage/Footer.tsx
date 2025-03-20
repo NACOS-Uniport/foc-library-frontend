@@ -9,7 +9,7 @@ const Footer = () => {
                     © {new Date().getFullYear()} E-Library. All rights reserved.
                 </p>
                 <p className="text-gray-500">
-                    Contact: support@example.com
+                    Contact: focuniport@gmail.com
                 </p>
             </div>
         </footer>

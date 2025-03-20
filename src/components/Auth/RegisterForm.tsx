@@ -1,6 +1,6 @@
-// src/components/Auth/RegisterForm.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 interface RegisterFormProps {
     onRegisterSuccess: () => void;
@@ -21,13 +21,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess }) => {
 
         try {
             const response = await axios.post(`${API_BASE_URL}/auth/register`, { email });
-            console.log('Registration successful:', response.data);
+            toast.success('Registration successful! Please check your email.');
             setRegisterSuccess(true);
             setTimeout(() => {
                 onRegisterSuccess();
             }, 3000);
         } catch (error: any) {
-            console.error('Registration error:', error);
+            toast.error(error.response?.data?.message || 'Registration failed');
             setRegisterError(error.response?.data?.message || error.message || 'Registration failed.');
         } finally {
             setIsLoading(false);
