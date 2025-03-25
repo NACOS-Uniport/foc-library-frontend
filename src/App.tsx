@@ -6,6 +6,7 @@ import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import UploadMaterial from './components/UploadPage/UploadMaterial';
 
+
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userEmail, setUserEmail] = useState<string | null>(null);

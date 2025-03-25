@@ -26,19 +26,45 @@ const HomePage: React.FC<HomePageProps> = ({ userEmail, onLogout }) => {
     const [materials, setMaterials] = useState<Material[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchMaterials = async () => {
             setError(null);
+            setIsLoading(true);
             try {
-                // Remove the search parameter from the URL
                 const response = await axios.get(`${API_BASE_URL}/materials`);
-                console.log('Materials data:', response.data); // Print data to console
-                setMaterials(response.data.data); // Adjust if needed
+                
+                // Log the entire response to understand its structure
+                console.log('Full API Response:', response);
+                
+                // Check the actual structure of the response
+                let materialsData;
+                
+                // Common API response patterns
+                if (response.data && Array.isArray(response.data)) {
+                    // If the response is directly an array
+                    materialsData = response.data;
+                } else if (response.data && response.data.data && Array.isArray(response.data.data)) {
+                    // If the response has a 'data' property containing the array
+                    materialsData = response.data.data;
+                } else if (response.data && response.data.materials && Array.isArray(response.data.materials)) {
+                    // Another common pattern
+                    materialsData = response.data.materials;
+                } else {
+                    // If none of the above patterns match
+                    throw new Error('Unexpected data structure from API');
+                }
+
+                console.log('Processed Materials:', materialsData);
+                
+                setMaterials(materialsData);
             } catch (err: any) {
                 console.error('Error fetching materials:', err);
-                setError(err.message || 'Failed to fetch materials.');
+                setError(err.message || 'Failed to fetch materials');
                 setMaterials([]);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -64,16 +90,22 @@ const HomePage: React.FC<HomePageProps> = ({ userEmail, onLogout }) => {
 
                 {error && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                        <strong className="font-bold">Error!</strong>
+                        <strong className="sen-bold">Error!</strong>
                         <span className="block sm:inline">{error}</span>
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {materials.map((material) => (
-                        <MaterialCard key={material._id} material={material} />
-                    ))}
-                </div>
+                {isLoading ? (
+                    <div className="text-center py-4">Loading materials...</div>
+                ) : materials.length === 0 ? (
+                    <div className="text-center py-4">No materials found.</div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {materials.map((material) => (
+                            <MaterialCard key={material._id} material={material} />
+                        ))}
+                    </div>
+                )}
             </main>
 
             <Footer />

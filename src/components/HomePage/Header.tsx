@@ -1,6 +1,8 @@
+// Header.tsx
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Dropdown from '../Dropdown';
+import Dropdown from '../Dropdown'; // Make sure the path is correct
 
 interface HeaderProps {
     userEmail: string | null;
@@ -9,8 +11,22 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ userEmail, onLogout }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [greeting, setGreeting] = useState('');
     const dropdownRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+
+    // Function to generate time-based greeting
+    const getTimeBasedGreeting = () => {
+        const currentHour = new Date().getHours();
+        
+        if (currentHour < 12) {
+            return 'Good Morning';
+        } else if (currentHour < 17) {
+            return 'Good Afternoon';
+        } else {
+            return 'Good Evening';
+        }
+    };
 
     // Custom dropdown items with styles - increased padding and red background for logout
     const dropdownItems = [
@@ -22,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ userEmail, onLogout }) => {
         { 
             label: 'Logout', 
             onClick: onLogout,
-            className: 'py-3 px-6 text-white bg-red-500 hover:bg-red-600' // Red background for logout
+            className: "py-3 px-6 text-white bg-red-500 hover:bg-red-600" // Corrected styles
         },
     ];
 
@@ -33,6 +49,9 @@ const Header: React.FC<HeaderProps> = ({ userEmail, onLogout }) => {
 
     // Add click outside listener to close the dropdown
     useEffect(() => {
+        // Set greeting when component mounts
+        setGreeting(getTimeBasedGreeting());
+
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsDropdownOpen(false);
@@ -53,7 +72,9 @@ const Header: React.FC<HeaderProps> = ({ userEmail, onLogout }) => {
     return (
         <header className="bg-white shadow-md">
             <div className="container mx-auto py-4 px-4 flex items-center justify-between">
-                <Link to="/" className="text-2xl font-bold text-gray-800">E-Library</Link>
+                <Link to="/" className="text-2xl font-bold text-green-500">
+                    {greeting}
+                </Link>
 
                 <div className="flex items-center space-x-4">
                     <div 
@@ -67,10 +88,9 @@ const Header: React.FC<HeaderProps> = ({ userEmail, onLogout }) => {
                             <svg className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                            <span className="text-gray-700">{userEmail}</span>
+                            <span className="text-gray-700 hidden md:block">{userEmail}</span>
                         </button>
                         
-                        {/* Removed className prop to avoid TypeScript error */}
                         <Dropdown 
                             isOpen={isDropdownOpen} 
                             onClose={() => setIsDropdownOpen(false)} 

@@ -77,10 +77,10 @@ const UploadMaterial: React.FC<UploadMaterialProps> = ({ onUploadSuccess }) => {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-xl font-semibold mb-4">Upload Material</h2>
+            <h2 className="text-xl sen-semibold mb-4">Upload Material</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label htmlFor="level" className="block text-gray-700 text-sm font-bold mb-2">Level:</label>
+                    <label htmlFor="level" className="block text-gray-700 text-sm sen-bold mb-2">Level:</label>
                     <select id="level" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={level} onChange={(e) => setLevel(e.target.value)}>
                         <option value="100">100</option>
                         <option value="200">200</option>
@@ -90,31 +90,31 @@ const UploadMaterial: React.FC<UploadMaterialProps> = ({ onUploadSuccess }) => {
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="courseCode" className="block text-gray-700 text-sm font-bold mb-2">Course Code:</label>
+                    <label htmlFor="courseCode" className="block text-gray-700 text-sm sen-bold mb-2">Course Code:</label>
                     <input type="text" id="courseCode" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={courseCode} onChange={(e) => setCourseCode(e.target.value)} />
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="courseTitle" className="block text-gray-700 text-sm font-bold mb-2">Course Title:</label>
+                    <label htmlFor="courseTitle" className="block text-gray-700 text-sm sen-bold mb-2">Course Title:</label>
                     <input type="text" id="courseTitle" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={courseTitle} onChange={(e) => setCourseTitle(e.target.value)} />
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+                    <label htmlFor="description" className="block text-gray-700 text-sm sen-bold mb-2">Description:</label>
                     <textarea id="description" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="material" className="block text-gray-700 text-sm font-bold mb-2">Material:</label>
+                    <label htmlFor="material" className="block text-gray-700 text-sm sen-bold mb-2">Material:</label>
                     <input type="file" id="material" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleMaterialChange} />
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="token" className="block text-gray-700 text-sm font-bold mb-2">Token:</label>
+                    <label htmlFor="token" className="block text-gray-700 text-sm sen-bold mb-2">Token:</label>
                     <input type="text" id="token" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={token} onChange={(e) => setToken(e.target.value)} />
                 </div>
 
-                <button type="submit" className="bg-green-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled={uploading}>
+                <button type="submit" className="bg-green-500 hover:bg-red-700 text-white sen-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled={uploading}>
                     {uploading ? 'Uploading...' : 'Upload'}
                 </button>
 

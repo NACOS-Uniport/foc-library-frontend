@@ -38,7 +38,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess }) => {
         <div className="p-8 max-w-md w-full">
             {registerSuccess ? (
                 <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded animate-pulse">
-                    <p className="text-green-700 font-medium">Registration successful!</p>
+                    <p className="text-green-700 sen-medium">Registration successful!</p>
                     <p className="text-green-600 mt-1">Please check your email for verification instructions.</p>
                     <p className="text-gray-500 text-sm mt-3">Redirecting to login...</p>
                 </div>
@@ -50,7 +50,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess }) => {
                         </div>
                     )}
                     <div>
-                        <label htmlFor="register-email" className="block text-gray-700 font-medium mb-2">
+                        <label htmlFor="register-email" className="block text-gray-700 sen-medium mb-2">
                             Email Address
                         </label>
                         <input
@@ -66,7 +66,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess }) => {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className={`w-full py-2 px-4 rounded-md font-medium transition ${
+                        className={`w-full py-2 px-4 rounded-md sen-medium transition ${
                             isLoading
                                 ? "bg-green-950 text-white cursor-not-allowed"
                                 : "bg-green-600 hover:bg-green-700 text-white"

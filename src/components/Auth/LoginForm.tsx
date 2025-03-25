@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 interface LoginFormProps {
     onLogin: (email: string) => void;
@@ -10,6 +11,7 @@ interface LoginFormProps {
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
+    const { setToken } = useAuth(); // Use the setToken method from auth context
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [loginError, setLoginError] = useState<string | null>(null);
@@ -44,7 +46,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/auth/verify-otp`, { email, otp });
             toast.success('Login successful!');
-            localStorage.setItem('authToken', response.data.token);
+            
+            // Store token in both localStorage and auth context
+            const authToken = response.data.token;
+            localStorage.setItem('authToken', authToken);
+            setToken(authToken); // Set token in auth context
+            
             onLogin(email);
             navigate('/'); // Redirect to home page after successful login
         } catch (error: any) {
@@ -65,7 +72,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
             
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <label htmlFor="login-email" className="block text-gray-700 font-medium mb-2">
+                    <label htmlFor="login-email" className="block text-gray-700 sen-medium mb-2">
                         Email Address
                     </label>
                     <input
@@ -80,7 +87,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
                 </div>
 
                 <div>
-                    <label htmlFor="login-otp" className="block text-gray-700 font-medium mb-2">
+                    <label htmlFor="login-otp" className="block text-gray-700 sen-medium mb-2">
                         One-Time Password
                     </label>
                     <div className="relative">
@@ -110,7 +117,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
                 <button
                     type="submit"
                     disabled={isSubmitting || !email || !otp}
-                    className={`w-full py-2 px-4 rounded-md font-medium transition focus:outline-none ${
+                    className={`w-full py-2 px-4 rounded-md sen-medium transition focus:outline-none ${
                         isSubmitting || !email || !otp
                             ? "bg-green-600 text-white cursor-not-allowed"
                             : "bg-green-700 hover:bg-green-800 text-white"

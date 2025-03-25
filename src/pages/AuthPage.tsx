@@ -18,7 +18,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
         <div className="min-h-screen bg-gradient-to-br from-green-50 to-yellow-100 flex items-center justify-center px-4 py-12">
             <div className="w-full max-w-md">
                 <div className="text-center mb-10">
-                    <h1 className="text-3xl font-bold text-gray-800">
+                    <h1 className="text-3xl sen-bold text-gray-800">
                         {isRegistering ? 'Create Account' : 'Welcome Back'}
                     </h1>
                     <p className="text-gray-600 mt-2">
@@ -38,7 +38,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
                 
                 <div className="mt-6 text-center">
                     <button 
-                        className="text-green-600 hover:text-green-800 transition font-medium"
+                        className="text-green-600 hover:text-green-800 transition sen-medium"
                         onClick={toggleForm}
                     >
                         {isRegistering 
