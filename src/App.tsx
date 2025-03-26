@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
-import UploadMaterial from './components/UploadPage/UploadMaterial';
+import UploadMaterial from './pages/UploadMaterialPage';
 
 
 function App() {

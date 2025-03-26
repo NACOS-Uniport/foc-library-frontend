@@ -70,9 +70,9 @@ const Header: React.FC<HeaderProps> = ({ userEmail, onLogout }) => {
     }, [isDropdownOpen]);
 
     return (
-        <header className="bg-white shadow-md">
+        <header className="bg-white shadow-md fixed z-10 w-full">
             <div className="container mx-auto py-4 px-4 flex items-center justify-between">
-                <Link to="/" className="text-2xl font-bold text-green-500">
+                <Link to="/" className="text-2xl sen-bold text-green-500">
                     {greeting}
                 </Link>
 

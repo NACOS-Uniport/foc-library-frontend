@@ -106,7 +106,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
                             className={`absolute right-1 top-1 bottom-1 px-4 rounded-md whitespace-nowrap transition focus:outline-none ${
                                 isRequestingOtp || !email
                                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                    : "bg-green-300 text-green-950 hover:bg-green-500"
+                                    : "bg-green-600 text-white hover:bg-green-500"
                             }`}
                         >
                             {isRequestingOtp ? "Sending..." : "Get OTP"}

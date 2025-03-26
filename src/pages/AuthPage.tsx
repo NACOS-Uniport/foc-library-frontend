@@ -23,8 +23,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
                     </h1>
                     <p className="text-gray-600 mt-2">
                         {isRegistering 
-                            ? 'Sign up to get started with our service' 
-                            : 'Log in to access your account'}
+                            ? 'Create Your E-Library Account' 
+                            : 'Login to access Faculty of Computing Resources'}
                     </p>
                 </div>
                 
