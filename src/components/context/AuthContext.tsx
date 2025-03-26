@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import axios from "axios";
 
 interface AuthContextType {
   token: string | null;
@@ -14,20 +14,19 @@ const AuthContext = createContext<AuthContextType>({
   token: null,
   setToken: () => {},
   logout: () => {},
-  isAuthenticated: false
+  isAuthenticated: false,
 });
 
-export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem("authToken");
   });
 
-  // Compute authentication status
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
 
-  // Token validation effect
   useEffect(() => {
-    // Simple validation by attempting to fetch materials
     const validateToken = async () => {
       if (!token) {
         setIsAuthenticated(false);
@@ -35,18 +34,16 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       }
 
       try {
-        // Attempt to fetch materials to check token validity
         await axios.get(`${API_BASE_URL}/materials`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         setIsAuthenticated(true);
       } catch (error: any) {
-        // If request fails, consider token invalid
         if (error.response && error.response.status === 401) {
           setToken(null);
-          localStorage.removeItem('authToken');
+          localStorage.removeItem("authToken");
           setIsAuthenticated(false);
         }
       }
@@ -55,19 +52,18 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
     validateToken();
   }, [token]);
 
-  // Update localStorage whenever token changes
   useEffect(() => {
     if (token) {
-      localStorage.setItem('authToken', token);
+      localStorage.setItem("authToken", token);
     } else {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem("authToken");
     }
   }, [token]);
 
   const logout = () => {
     setToken(null);
     setIsAuthenticated(false);
-    localStorage.removeItem('authToken');
+    localStorage.removeItem("authToken");
   };
 
   return (
